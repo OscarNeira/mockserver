@@ -12,7 +12,7 @@ FROM openjdk:8-jdk-alpine
 MAINTAINER James Bloom "jamesdbloom@gmail.com"
 
 # obtain MockServer jar and script
-RUN apk add --update openssl ca-certificates bash wget
+RUN apk add --update openssl ca-certificates bash wget tcpdump
 ADD run_mockserver.sh /opt/mockserver/run_mockserver.sh
 ARG VERSION=5.9.0
 ARG REPOSITORY_URL=https://oss.sonatype.org/content/repositories/releases/org/mock-server/mockserver-netty/$VERSION/mockserver-netty-$VERSION-jar-with-dependencies.jar
@@ -26,10 +26,10 @@ WORKDIR /opt/mockserver
 EXPOSE 1080
 
 # don't run MockServer as root
-RUN addgroup -g 1000 mockserver && \
-    adduser -H -D -u 1000 -G mockserver mockserver
-RUN chown -R mockserver:mockserver /opt/mockserver
-USER mockserver
+#RUN addgroup -g 1000 mockserver && \
+                ##    adduser -H -D -u 1000 -G mockserver mockserver
+                ##RUN chown -R mockserver:mockserver /opt/mockserver
+                ##USER mockserver
 
 ENTRYPOINT ["/opt/mockserver/run_mockserver.sh"]
 
